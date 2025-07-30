@@ -1,89 +1,113 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>😈 IZINKAN DULU 😈</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      width: 100%;
-      height: 100%;
-      background: black;
-      color: white;
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    button {
-      padding: 16px 30px;
-      font-size: 20px;
-      background: red;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      color: white;
-      box-shadow: 0 0 20px red;
-    }
-    .popup {
-      position: absolute;
-      width: 100px;
-      height: 60px;
-      background: white;
-      color: black;
-      font-size: 24px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      box-shadow: 0 0 10px red;
-      z-index: 9999;
-      animation: pop 0.3s ease;
-    }
-    @keyframes pop {
-      from { transform: scale(0.3); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile RPG Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            touch-action: none;
+        }
+        
+        #orientation-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            text-align: center;
+            z-index: 100;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #game-canvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        
+        #joystick {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        #joystick-knob {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        #jump-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(76, 175, 80, 0.7);
+            border: none;
+            color: white;
+            font-size: 16px;
+        }
+        
+        @media (orientation: portrait) {
+            #orientation-message {
+                display: flex;
+            }
+            #game-container {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>😈 IZINKAN PRANK DULU 😈</h1>
-  <button onclick="startPrank()">IZINKAN</button>
+    <div id="orientation-message">
+        Putar perangkat ke mode landscape untuk bermain!
+    </div>
+    
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="controls">
+            <div id="joystick">
+                <div id="joystick-knob"></div>
+            </div>
+            <button id="jump-btn">Lompat</button>
+        </div>
+    </div>
 
-  <script>
-    function createPopup() {
-      const popup = document.createElement("div");
-      popup.className = "popup";
-      popup.innerText = "🤣🤣🤣";
-      popup.style.left = Math.random() * window.innerWidth + "px";
-      popup.style.top = Math.random() * window.innerHeight + "px";
-      popup.onclick = () => {
-        for (let i = 0; i < 3; i++) createPopup();
-      };
-      document.body.appendChild(popup);
-    }
-
-    function startPrank() {
-      // 1. Request Notification Permission
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          new Notification("😜 PRANK DIMULAI!", {
-            body: "🤣 Selamat datang di dunia popup 🤣"
-          });
-        }
-
-        // 2. Masuk ke fullscreen
-        if (document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen();
-        }
-
-        // 3. Spam popup
-        for (let i = 0; i < 7; i++) createPopup();
-      });
-    }
-  </script>
+    <script src="game.js"></script>
 </body>
 </html>
